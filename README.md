@@ -1,25 +1,47 @@
-21741 - Arquitectures Avançades
+# 21741 - Arquitectures Avançades - Programación paralela
 
-Basándonos en la la biblioteca [OneAPI Threading Building Blocks (oneTBB)] ()  es una biblioteca basada en plantillas para C++ desarrollada por Intel para facilitar la escritura de programas que explotan las capacidades de paralelismo de los procesadores con arquitectura multinúcleo.
+## Introducción
 
-una biblioteca de rendimiento flexible que simplifica el trabajo de agregar paralelismo a aplicaciones complejas, incluso si no es un experto en subprocesos.
+  aa.aa_parallel incluye una serie de actividades (cada una en un directorio diferente) de programación paralela que se corresponden con las actividades propuestas a lo largo del curso. 
+  En cada directorio se destacará el uso de las funciones principales de la biblioteca oneTBB.
+    
+ ## Estructura 
+ 
+ ```
+aa.aa_parallel
+├── helloworld              Primera aplicación por excelencia siempre que se comienza
+├── parallel_for            Actividad 1. Sumar 1 a cada elemento de un vector  
+├── parallel_reduce         Actividad 2. Sumar los 100 primeros números de 1 a 101
+├── GetMax                  Actividad 3. Obtener el valor máximo de un vector (parallel_reduce)
+├── parallel_scan           Actividad 4. Filtrar un vector por un criterio determinado (MAP,SCAN & JOIN)
+├── template                Plantilla necesaria para realizar las actividades (Ver Requisitos más abajo)
+└── README.md               (este archivo)
+```
+ 
+
+## Requisitos
+
+   Las actividades de programación paralela se realizarán en C++, apoyándome del uso de dos herramientas para facilitar la escritura de los programas:  
+   
+   * La biblioteca [OneAPI Threading Building Blocks (oneTBB)](https://oneapi-src.github.io/oneTBB/) basada en plantillas para C++ desarrollada por Intel que explotan las capacidades de paralelismo de los procesadores con arquitectura multinúcleo.
+   * La herramienta de software gratuita [Bazel](https://bazel.build/) para la automatización de la construcción y pruebas de software similar [Make](https://www.gnu.org/software/make), [Maven](https://maven.apache.org/), o [Gradle](https://gradle.org/).
 
 
-## Using oneTBB as a dependency
+### Empleando oneTBB como una dependencia dentro de un proyecto Bazel
 
-This example demonstrates how to use oneTBB as a dependency within a Bazel project.
+El enfoque estándar de Bazel para manejar las bibliotecas de terceros es el enlace estático. Por lo que los pasos a seguir son:
 
-The following file structure is assumed:
+Definiremos una plantilla por defecto con esta estructura:
 
 ```
-example
-├── .bazelrc
+template
 ├── BUILD.bazel
 ├── main.cpp
 └── WORKSPACE.bazel
 ```
+Con el siguiente contenido en cada uno de los archivos
 
-_WORKSPACE.bazel_:
+_WORKSPACE.bazel_: En este archivo el repositorio oneTBB de GitHub* es 'traido' (fetched)
 ```python
 load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
 
@@ -30,9 +52,7 @@ git_repository(
 )
 ```
 
-In the *WORKSPACE* file, the oneTBB GitHub* repository is fetched. 
-
-_BUILD.bazel_:
+_BUILD.bazel_: Este archivo define un binario llamado `Demo` que tiene una dependencia con oneTBB.
 
 ```python
 cc_binary(
@@ -42,30 +62,28 @@ cc_binary(
 )
 ```
 
-The *BUILD* file defines a binary named `Demo` that has a dependency to oneTBB.
-
-_main.cpp_:
+_main.cpp_: Aquí es donde escribiré mi programa principal.
 
 ```c++
-#include "oneapi/tbb/version.h"
+#include "oneapi/tbb/parallel_invoke.h"
+#include "oneapi/tbb/version.h"   // TBB_VERSION_MAJOR, MINOR & PATCH
 
 #include <iostream>
 
-int main() {
-    std::cout << "Hello from oneTBB "
-              << TBB_VERSION_MAJOR << "."
-              << TBB_VERSION_MINOR << "."
-              << TBB_VERSION_PATCH
-              << "!" << std::endl;
 
-    return 0;
+int main(){
+ oneapi::tbb::parallel_invoke(
+
+   [](){std::cout << "TBB version" << std::endl;},
+   [](){std::cout << TBB_VERSION_MAJOR << "."
+                  << TBB_VERSION_MINOR << "."
+                  << TBB_VERSION_PATCH
+                  << "!" << std::endl;},
+   [](){std::cout << "Hello World!!" << std::endl;},
+ );
+   return 0;
 }
 ```
 
-The expected output of this program is the current version of oneTBB.
-
-Switch to the folder with the files created earlier and run the binary with `bazel run //:Demo`.
-
-## Build oneTBB using Bazel
-
-Run ```bazel build //...``` in the oneTBB root directory.
+Vas al directorio con los archivos creados antes y ejecutas el binario con `bazel run //:Demo`.
+El resultado se ejecutará directamente.
