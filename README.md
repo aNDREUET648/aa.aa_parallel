@@ -9,13 +9,13 @@
  
  ```
 aa.aa_parallel
-├── helloworld              Primera aplicación por excelencia siempre que se comienza
-├── parallel_for            Actividad 1. Sumar 1 a cada elemento de un vector  
-├── parallel_reduce         Actividad 2. Sumar los 100 primeros números de 1 a 101
-├── GetMax                  Actividad 3. Obtener el valor máximo de un vector (parallel_reduce)
-├── parallel_scan           Actividad 4. Filtrar un vector por un criterio determinado (MAP,SCAN & JOIN)
-├── template                Plantilla necesaria para realizar las actividades (Ver Requisitos más abajo)
-└── README.md               (este archivo)
+├── helloworld          Primera aplicación por excelencia siempre que se comienza (parallel_invoke)
+├── parallel_for        Actividad 1. Sumar 1 a cada elemento de un vector (parallel_for)
+├── parallel_reduce     Actividad 2. Sumar los 100 primeros números de 1 a 101 (parallel_reduce)
+├── GetMax              Actividad 3. Obtener el valor máximo de un vector (parallel_reduce)
+├── parallel_scan       Actividad 4. Filtrar un vector por un criterio determinado (MAP,SCAN & JOIN)
+├── template            Plantilla necesaria para realizar las actividades (Ver Requisitos más abajo)
+└── README.md           (este archivo)
 ```
  
 
