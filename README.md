@@ -86,4 +86,9 @@ int main(){
 ```
 
 Vas al directorio con los archivos creados antes y ejecutas el binario con `bazel run //:Demo`.
-El resultado se ejecutará directamente.
+El resultado en este caso es el Hello World!! y la versión del TBB en uso (aunque no sé en que orden)
+
+Bazel una vez construido el proyecto (compilado y linkado), lo ejecutará directamente.
+
+---
+[aNDREUET648](https://github.com/aNDREUET648) 
