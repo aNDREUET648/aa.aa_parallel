@@ -6,6 +6,8 @@
       - "TBB version"
       - '2021.6.0'!  (en mi caso es la version que me devuelve)
 
+    el header 'version.h' nos proporciona esta información
+
     El orden de impresión no tiene porque ser secuencial, de hecho no lo será
     
 */
